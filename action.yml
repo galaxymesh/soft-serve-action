@@ -33,8 +33,11 @@ runs:
       if: ${{ inputs.mirror == 'true' }}
       shell: bash
       run: |
-        echo "Remote origin URL: $(git config --get remote.origin.url)"
-        git clone --mirror $(git config --get remote.origin.url) mirror
+        # echo "Remote origin URL: $(git config --get remote.origin.url)"
+        SSH_URL="git@github.com:$(echo "$GITHUB_REPOSITORY" | sed -e 's/:refs//').git"
+        echo "Remote SSH URL: $SSH_URL"
+        git clone --mirror $SSH_URL mirror
+        # git clone --mirror $(git config --get remote.origin.url) mirror
 
     - id: add-ssh-key
       shell: bash
